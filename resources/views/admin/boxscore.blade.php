@@ -396,10 +396,10 @@
                         </div>
                         <hr />
                         <div class="pull-right">
-                            <a href="{{ url('admin/games/start/'.$data->id.'/'.$data->home_team) }}" class="btn btn-success btn-sm">
+                            <a target="_blank" href="{{ url('admin/games/start/'.$data->id.'/'.$data->home_team) }}" class="btn btn-success btn-sm">
                                 <i class="fa fa-bookmark"></i> Select {{ $data->home_team }}
                             </a>
-                            <a href="{{ url('admin/games/start/'.$data->id.'/'.$data->away_team) }}" class="btn btn-info btn-sm">
+                            <a target="_blank" href="{{ url('admin/games/start/'.$data->id.'/'.$data->away_team) }}" class="btn btn-info btn-sm">
                                 <i class="fa fa-bookmark"></i> Select {{ $data->away_team }}
                             </a>
                         </div>
