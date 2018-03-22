@@ -49,21 +49,38 @@ $players = \App\Boxscore::where('game_id',$data->id)
         <div class="modal-content">
             <div class="modal-body">
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">
+                    <button type="button" data-dismiss="modal" class="btn btn-success">
                         <img src="{{ url('public/upload/icons/2pt.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">
+                    <button type="button" data-dismiss="modal" class="btn btn-success">
                         <img src="{{ url('public/upload/icons/3pt.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">
+                    <button type="button" data-dismiss="modal" class="btn btn-success">
                         <img src="{{ url('public/upload/icons/ft.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="clearfix"></div>
+                <div class="col-sm-4 columns">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">
+                        <img src="{{ url('public/upload/icons/2pt_x.png') }}" class="img-responsive" />
+                    </button>
+                </div>
+                <div class="col-sm-4 columns">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">
+                        <img src="{{ url('public/upload/icons/3pt_x.png') }}" class="img-responsive" />
+                    </button>
+                </div>
+                <div class="col-sm-4 columns">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">
+                        <img src="{{ url('public/upload/icons/ft_x.png') }}" class="img-responsive" />
+                    </button>
+                </div>
+                <div class="clearfix"></div>
+                <hr />
             </div>
         </div><!-- /.modal-content -->
         </form>
