@@ -152,6 +152,48 @@ class GameCtrl extends Controller
         return $stats;
     }
 
+    public function autoStats($game_id,$player_id,$column,$team)
+    {
+        Boxscore::where('game_id',$game_id)
+            ->where('player_id',$player_id)
+            ->increment($column,1);
+
+        if($column=='fg2m'){
+            Boxscore::where('game_id',$game_id)
+                ->where('player_id',$player_id)
+                ->increment('fg2a',1);
+            Boxscore::where('game_id',$game_id)
+                ->where('player_id',$player_id)
+                ->increment('pts',2);
+        }else if($column=='fg3m'){
+            Boxscore::where('game_id',$game_id)
+                ->where('player_id',$player_id)
+                ->increment('fg3a',1);
+            Boxscore::where('game_id',$game_id)
+                ->where('player_id',$player_id)
+                ->increment('pts',3);
+        }else if($column=='ftm'){
+            Boxscore::where('game_id',$game_id)
+                ->where('player_id',$player_id)
+                ->increment('fta',1);
+            Boxscore::where('game_id',$game_id)
+                ->where('player_id',$player_id)
+                ->increment('pts',1);
+        }
+        $score = self::getScore($game_id,$team);
+        return $score;
+
+    }
+
+    public function getScore($game_id,$team)
+    {
+        $score = Boxscore::where('game_id',$game_id)
+            ->where('team',$team)
+            ->sum('pts');
+
+        return $score;
+    }
+
     public function saveManualStats(Request $req)
     {
         $match = array(
@@ -175,6 +217,7 @@ class GameCtrl extends Controller
             'stl' => $req->stl,
             'blk' => $req->blk,
             'turnover' => $req->turnover,
+            'pf' => $req->pf,
             'pts' => $pts
         );
         Boxscore::updateOrCreate($match,$data);

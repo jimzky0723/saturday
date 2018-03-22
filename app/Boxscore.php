@@ -23,6 +23,7 @@ class Boxscore extends Model
         'stl',
         'blk',
         'turnover',
+        'pf',
         'pts'
     ];
 }

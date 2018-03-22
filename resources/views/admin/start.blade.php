@@ -33,7 +33,7 @@ $players = \App\Boxscore::where('game_id',$data->id)
     <?php
         $player = \App\Players::find($row->player_id);
     ?>
-    <a class="btn btn-icon btn-twitter" href="#basketModal" data-toggle="modal">
+    <a class="btn btn-icon btn-twitter" href="#basketModal" data-player="{{ $player->id }}" data-toggle="modal">
         <i>
             {{ $player->fname[0] }}. {{ $player->lname }}<br /><small>{{ $player->position }} | {{ $player->jersey}}</small>
         </i>
@@ -49,73 +49,73 @@ $players = \App\Boxscore::where('game_id',$data->id)
         <div class="modal-content">
             <div class="modal-body">
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-success">
+                    <button type="button" data-dismiss="modal" class="btn btn-success action" data-action="fg2m">
                         <img src="{{ url('public/upload/icons/2pt.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-success">
+                    <button type="button" data-dismiss="modal" class="btn btn-success action" data-action="fg3m">
                         <img src="{{ url('public/upload/icons/3pt.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-success">
+                    <button type="button" data-dismiss="modal" class="btn btn-success action" data-action="ftm">
                         <img src="{{ url('public/upload/icons/ft.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-danger">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger action" data-action="fg2a">
                         <img src="{{ url('public/upload/icons/2pt_x.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-danger">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger action" data-action="fg3a">
                         <img src="{{ url('public/upload/icons/3pt_x.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-danger">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger action" data-action="fta">
                         <img src="{{ url('public/upload/icons/ft_x.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="clearfix"></div>
                 <hr />
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">
+                    <button type="button" data-dismiss="modal" class="btn btn-default action" data-action="blk">
                         <img src="{{ url('public/upload/icons/blk.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">
+                    <button type="button" data-dismiss="modal" class="btn btn-default action" data-action="oreb">
                         <img src="{{ url('public/upload/icons/oreb.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-4 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">
+                    <button type="button" data-dismiss="modal" class="btn btn-default action" data-action="dreb">
                         <img src="{{ url('public/upload/icons/dreb.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="clearfix"></div>
                 <hr />
                 <div class="col-sm-3 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-info">
+                    <button type="button" data-dismiss="modal" class="btn btn-info action" data-action="stl">
                         <img src="{{ url('public/upload/icons/stl.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-3 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-info">
+                    <button type="button" data-dismiss="modal" class="btn btn-info action" data-action="ast">
                         <img src="{{ url('public/upload/icons/ast.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-3 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-info">
+                    <button type="button" data-dismiss="modal" class="btn btn-info action" data-action="turnover">
                         <img src="{{ url('public/upload/icons/ot.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-3 columns">
-                    <button type="button" data-dismiss="modal" class="btn btn-danger">
-                        <img src="{{ url('public/upload/icons/fl.png') }}" class="img-responsive" />
+                    <button type="button" data-dismiss="modal" class="btn btn-danger action" data-action="pf">
+                        <img src="{{ url('public/upload/icons/pf.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="clearfix"></div>
@@ -126,4 +126,46 @@ $players = \App\Boxscore::where('game_id',$data->id)
 </div><!-- /.modal -->
 <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
+
+<script>
+    var team = "{{ $team }}";
+    var game_id = "{{ $data->id }}";
+    var player_id = 0;
+    var action = '';
+
+    getScore();
+
+    function getScore()
+    {
+        var url = "{{ url('game/score') }}";
+        $.ajax({
+            url: url+'/'+game_id+'/'+team,
+            type: 'GET',
+            success: function(data){
+                $('.score').html(data).fadeOut().fadeIn();
+            }
+        });
+    }
+
+    $('a[href="#basketModal"]').on('click',function(){
+        player_id = $(this).data('player');
+    });
+
+    $('.action').on('click',function(){
+        action = $(this).data('action');
+        sendData();
+    });
+
+    function sendData()
+    {
+        var url = "{{ url('admin/games/boxscore/auto/') }}";
+        $.ajax({
+            url: url+'/'+game_id+'/'+player_id+'/'+action+'/'+team,
+            type: 'GET',
+            success: function(data){
+                $('.score').html(data).fadeOut().fadeIn();
+            }
+        });
+    }
+</script>
 </html>

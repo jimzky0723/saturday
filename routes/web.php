@@ -40,6 +40,7 @@ Route::get('admin/games/player/remove/{game_id}/{player_id}','admin\GameCtrl@rem
 
 Route::get('admin/games/boxscore/{game_id}','admin\GameCtrl@boxscore');
 Route::get('admin/games/boxscore/stat/{game_id}/{player_id}','admin\GameCtrl@manualStats');
+Route::get('admin/games/boxscore/auto/{game_id}/{player_id}/{column}/{team}','admin\GameCtrl@autoStats');
 Route::post('admin/games/boxscore/manual','admin\GameCtrl@saveManualStats');
 
 Route::get('admin/games/refresh/{game_id}','admin\GameCtrl@calculate');
@@ -49,5 +50,8 @@ Route::get('admin/games/start/{game_id}/{team}','admin\GameCtrl@startGame');
 Route::post('admin/games/store','admin\GameCtrl@store');
 Route::post('admin/games/assign','admin\GameCtrl@assignPlayer');
 Route::get('admin/games/destroy/{game_id}','admin\GameCtrl@destroy');
+
+//PARAM of the GAME
+Route::get('game/score/{game_id}/{team}','GameCtrl@getScore');
 
 

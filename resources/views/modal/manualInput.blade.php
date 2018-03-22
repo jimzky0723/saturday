@@ -92,6 +92,12 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>PF</td>
+                            <td colspan="2">
+                                <input type="text" class="form-control" id="pf" name="pf" />
+                            </td>
+                        </tr>
+                        <tr>
                             <td>PTS</td>
                             <td>
                                 <input type="text" readonly class="form-control" id="pts" name="pts" />

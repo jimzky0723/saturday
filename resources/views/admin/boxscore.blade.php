@@ -61,6 +61,7 @@
                                     <td>STL</td>
                                     <td>BLK</td>
                                     <td>TO</td>
+                                    <td>PF</td>
                                     <td>PTS</td>
                                 </tr>
                                 </thead>
@@ -81,6 +82,7 @@
                                 $total_stl = 0;
                                 $total_blk = 0;
                                 $total_to = 0;
+                                $total_pf = 0;
                                 $total_pts =0;
                                 ?>
                                 @foreach($players as $row)
@@ -154,6 +156,10 @@
                                             <?php $total_to = $total_to + $row->turnover; ?>
                                         </td>
                                         <td>
+                                            {{ $row->pf }}
+                                            <?php $total_pf = $total_pf + $row->pf; ?>
+                                        </td>
+                                        <td>
                                             {{ $row->pts }}
                                             <?php $total_pts = $total_pts + $row->pts; ?>
                                         </td>
@@ -172,6 +178,7 @@
                                     <th>{{ $total_stl}}</th>
                                     <th>{{ $total_blk}}</th>
                                     <th>{{ $total_to}}</th>
+                                    <th>{{ $total_pf}}</th>
                                     <th>{{ $total_pts}}</th>
                                 </tr>
                                 <tr>
@@ -232,6 +239,7 @@
                                     <td>STL</td>
                                     <td>BLK</td>
                                     <td>TO</td>
+                                    <td>PF</td>
                                     <td>PTS</td>
                                 </tr>
                                 </thead>
@@ -252,6 +260,7 @@
                                     $total_stl = 0;
                                     $total_blk = 0;
                                     $total_to = 0;
+                                    $total_pf = 0;
                                     $total_pts =0;
                                 ?>
                                 @foreach($players as $row)
@@ -325,6 +334,10 @@
                                             <?php $total_to = $total_to + $row->turnover; ?>
                                         </td>
                                         <td>
+                                            {{ $row->pf }}
+                                            <?php $total_pf = $total_pf + $row->pf; ?>
+                                        </td>
+                                        <td>
                                             {{ $row->pts }}
                                             <?php $total_pts = $total_pts + $row->pts; ?>
                                         </td>
@@ -343,6 +356,7 @@
                                     <th>{{ $total_stl}}</th>
                                     <th>{{ $total_blk}}</th>
                                     <th>{{ $total_to}}</th>
+                                    <th>{{ $total_pf}}</th>
                                     <th>{{ $total_pts}}</th>
                                 </tr>
                                 <tr>
@@ -422,6 +436,7 @@
                 $('#stl').val(data.stl);
                 $('#blk').val(data.blk);
                 $('#turnover').val(data.turnover);
+                $('#pf').val(data.pf);
                 $('#pts').val(data.pts);
             }
         });
