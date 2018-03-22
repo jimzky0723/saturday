@@ -1,0 +1,48 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/','HomeCtrl@index');
+
+Route::get('/logout', function (){
+    Session::flush();
+    return redirect('login');
+});
+Route::get('/login', 'LoginCtrl@login');
+Route::post('/login', 'LoginCtrl@validateLogin');
+
+
+//admin page
+Route::get('admin','admin\HomeCtrl@index');
+
+Route::get('admin/players','admin\PlayerCtrl@index');
+Route::get('admin/player/create','admin\PlayerCtrl@create');
+Route::post('admin/player/store','admin\PlayerCtrl@store');
+
+Route::get('admin/player/{id}','admin\PlayerCtrl@edit');
+Route::post('admin/player/update','admin\PlayerCtrl@update');
+
+
+Route::get('admin/games','admin\GameCtrl@index');
+
+Route::get('admin/games/assign/{game_id}','admin\GameCtrl@assign');
+Route::get('admin/games/player/remove/{game_id}/{player_id}','admin\GameCtrl@removePlayer');
+
+Route::get('admin/games/boxscore/{game_id}','admin\GameCtrl@boxscore');
+Route::get('admin/games/boxscore/stat/{game_id}/{player_id}','admin\GameCtrl@manualStats');
+Route::post('admin/games/boxscore/manual','admin\GameCtrl@saveManualStats');
+
+Route::get('admin/games/refresh/{game_id}','admin\GameCtrl@calculate');
+
+Route::post('admin/games/store','admin\GameCtrl@store');
+Route::post('admin/games/assign','admin\GameCtrl@assignPlayer');
+
