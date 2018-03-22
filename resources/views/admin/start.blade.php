@@ -55,12 +55,12 @@ $players = \App\Boxscore::where('game_id',$data->id)
                 </div>
                 <div class="col-sm-4 columns">
                     <button type="button" data-dismiss="modal" class="btn btn-default">
-                        <img src="{{ url('public/upload/icons/2pt.png') }}" class="img-responsive" />
+                        <img src="{{ url('public/upload/icons/3pt.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="col-sm-4 columns">
                     <button type="button" data-dismiss="modal" class="btn btn-default">
-                        <img src="{{ url('public/upload/icons/2pt.png') }}" class="img-responsive" />
+                        <img src="{{ url('public/upload/icons/ft.png') }}" class="img-responsive" />
                     </button>
                 </div>
                 <div class="clearfix"></div>
