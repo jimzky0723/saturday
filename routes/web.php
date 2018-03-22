@@ -44,6 +44,8 @@ Route::post('admin/games/boxscore/manual','admin\GameCtrl@saveManualStats');
 
 Route::get('admin/games/refresh/{game_id}','admin\GameCtrl@calculate');
 
+Route::get('admin/games/start/{game_id}/{team}','admin\GameCtrl@startGame');
+
 Route::post('admin/games/store','admin\GameCtrl@store');
 Route::post('admin/games/assign','admin\GameCtrl@assignPlayer');
 Route::get('admin/games/destroy/{game_id}','admin\GameCtrl@destroy');

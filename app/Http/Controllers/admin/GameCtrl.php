@@ -190,4 +190,13 @@ class GameCtrl extends Controller
             ->delete();
         return redirect('admin/games')->with('status','deleted');
     }
+
+    public function startGame($game_id,$team)
+    {
+        $data = Games::find($game_id);
+        return view('admin.start',[
+            'data' => $data,
+            'team' => $team
+        ]);
+    }
 }

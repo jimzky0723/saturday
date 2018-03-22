@@ -43,8 +43,16 @@ class PlayerCtrl extends Controller
         );
         $unique = implode("",$tmp);
 
-        $prof_pic = self::uploadPicture($_FILES['prof_pic'],$unique,'profile');
-        $portrait_pic = self::uploadPicture($_FILES['portrait_pic'],$unique,'portrait');
+        $prof_pic = 'default.jpg';
+        $portrait_pic = 'default.jpg';
+        if($_FILES['prof_pic']['name']){
+            $prof_pic = self::uploadPicture($_FILES['prof_pic'],$unique,'profile');
+        }
+        if($_FILES['portrait_pic']['name']){
+            $portrait_pic = self::uploadPicture($_FILES['portrait_pic'],$unique,'portrait');
+        }
+
+
 
         $match = array('unique_id' => $unique);
         Players::updateOrCreate($match,

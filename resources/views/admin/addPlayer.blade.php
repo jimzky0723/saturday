@@ -158,7 +158,7 @@
                                         <i class="fa fa-send"></i> Save
                                     </button>
                                     @else
-                                    <button data-target="#deleteModal" data-toggle="modal" type="submit" class="btn btn-danger btn-sm">
+                                    <button data-target="#deleteModal" data-toggle="modal" type="button" class="btn btn-danger btn-sm">
                                         <i class="fa fa-trash"></i> Delete
                                     </button>
                                     <button type="submit" class="btn btn-success btn-sm">
