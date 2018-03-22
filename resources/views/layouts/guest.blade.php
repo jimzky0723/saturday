@@ -42,6 +42,16 @@
             z-index:999999999;
             display: none;
         }
+        .panel-body {
+            padding: 0px !important;
+        }
+        .list-group,.thumbnail {
+            margin-bottom: 0px !important;
+        }
+        .list-group-item {
+            border-radius: 0px !important;
+        }
+
     </style>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -61,20 +71,10 @@
 <nav class="navbar navbar-default navbar-static-top">
     <div class="header" style="background-color:#2F4054;padding:10px;">
         <div class="container">
-            <div class="pull-left">
-                <?php
-                    $user = Session::get('auth');
-                ?>
-                <span class="title-info">Welcome,</span> <span class="title-desc">{{ strtoupper($user->username) }}</span>
-            </div>
 
-            <div class="pull-right">
-                <span class="title-info">Date:</span> <span class="title-desc">{{ date('M d, Y') }}</span>
-            </div>
             <div class="clearfix"></div>
         </div>
     </div>
-
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -83,30 +83,20 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url('/admin') }}">DOHBC</a>
+            <a class="navbar-brand" href="{{ url('/') }}">DOHBC</a>
         </div>
 
-        @if($user->level=='admin')
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/admin') }}">Home</a></li>
-                <li><a href="{{ url('admin/players') }}">Players</a></li>
-                <li><a href="{{ url('admin/games') }}">Schedule</a></li>
-                <li><a href="{{ url('admin/stats') }}">Stats</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ URL::to('logout') }}">Account Settings</a></li>
-                        <li class="divider"></li>
-                        <li><a href="{{ URL::to('logout') }}">Logout</a></li>
-                    </ul>
-                </li>
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li><a href="{{ url('players') }}">Players</a></li>
+                <li><a href="{{ url('games') }}">Schedule</a></li>
+                <li><a href="{{ url('stats') }}">Stats</a></li>
+                <li><a href="{{ url('ranking') }}">Ranking</a></li>
             </ul>
         </div><!--/.nav-collapse -->
-        @else
-
-        @endif
     </div>
+    <div style="background-color:#ccc;padding:3px;"></div>
 </nav>
 
 <div class="container">
@@ -121,7 +111,7 @@
 </footer>
 @include('modal.confirmation')
 
-        <!-- Bootstrap core JavaScript
+<!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>

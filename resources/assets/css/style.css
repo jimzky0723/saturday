@@ -210,3 +210,13 @@ label {
 .unread-section {
     background-color: #e4ff92 !important;
 }
+
+@font-face {
+    font-family: 'BrandName';
+    src: url('../fonts/esp_bdit.ttf') format('truetype');
+}
+.navbar-brand {
+    font-family: 'BrandName', Arial, sans-serif;
+    font-size: 1.7em;
+    color: #59ab91 !important;
+}

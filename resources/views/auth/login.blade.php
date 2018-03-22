@@ -50,10 +50,11 @@
             <div class="row">
                 <div class="col-xs-7">
                     <div class="form-group">
-
+                        <a href="{{ url('/') }}" class="btn btn-default btn-flat"><i class="fa fa-globe"></i> Go to Page</a>
                     </div>
                 </div><!-- /.col -->
                 <div class="col-xs-5">
+
                     <button type="submit" class="btn btn-primary btn-block btn-flat btn-submit">
                         <i class="fa fa-lock"></i>&nbsp;&nbsp;Sign In
                     </button>

@@ -12,6 +12,8 @@
 */
 
 Route::get('/','HomeCtrl@index');
+Route::get('/players','HomeCtrl@players');
+Route::get('/player/{player_id}','HomeCtrl@profile');
 
 Route::get('/logout', function (){
     Session::flush();
