@@ -8,11 +8,27 @@
         th {
             vertical-align: middle !important;
         }
+        .score {
+            font-weight: bold;
+            font-size: 1.6em;
+        }
     </style>
     <div class="col-md-12">
         <div class="jim-content">
-            <h3 class="page-header">
-                {{ $title }}</h3>
+            <div class="text-center">
+                <h3 class="page-header">
+                <?php
+                    $home_score = \App\Boxscore::where('game_id',$data->id)
+                        ->where('team',$data->home_team)
+                        ->sum('pts');
+
+                    $away_score = \App\Boxscore::where('game_id',$data->id)
+                        ->where('team',$data->away_team)
+                        ->sum('pts');
+                ?>
+                {{ $data->home_team }} <font class="text-primary score">{{ $home_score }}</font> <font class="score">|</font>  <font class="text-primary score">{{ $away_score }}</font> {{ $data->away_team }}
+                </h3>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     @if($status=='saved')
