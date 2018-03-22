@@ -6,6 +6,9 @@
             vertical-align: middle !important;
         }
     </style>
+    <?php
+    $status = session('status');
+    ?>
     <div class="col-md-12">
         <div class="jim-content">
             <div class="pull-right">
@@ -20,6 +23,13 @@
                 Player List</h3>
             <div class="row">
                 <div class="col-md-12">
+                @if($status=='deleted')
+                    <div class="alert alert-success">
+                        <font class="text-success">
+                            <i class="fa fa-check"></i> Player successfully deleted!
+                        </font>
+                    </div>
+                @endif
                 @if(count($data))
                     <div class="table-responsive">
                         <table class="table table-striped">

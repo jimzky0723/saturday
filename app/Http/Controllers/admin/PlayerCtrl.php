@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Boxscore;
+use App\Games;
 use App\Players;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -122,5 +124,24 @@ class PlayerCtrl extends Controller
 
         return redirect()->back()->with('status','updated');
 
+    }
+
+    public function destroy($player_id)
+    {
+        Boxscore::where('player_id',$player_id)
+            ->delete();
+        Games::where('winner_id',$player_id)
+            ->update([
+                'winner_id' => 0,
+                'winner_score' => 0
+            ]);
+        Games::where('losser_id',$player_id)
+            ->update([
+                'losser_id' => 0,
+                'losser_score' => 0
+            ]);
+        Players::find($player_id)->delete();
+
+        return redirect('admin/players')->with('status','deleted');
     }
 }

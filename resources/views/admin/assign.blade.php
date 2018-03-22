@@ -145,7 +145,27 @@
         </div>
     </div>
 
+    <div class="col-md-12">
+        <div class="jim-content">
+            <div class="pull-right">
+                <button data-toggle="modal" data-target="#deleteModal" class="btn btn-flat btn-danger">
+                    <i class="fa fa-trash"></i> Delete Game
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
     @include('modal.playerList')
+@endsection
+
+@section('modal')
+    <label>DELETE GAME?</label>
+    <form method="GET" action="{{ url('admin/games/destroy/'.$data->id) }}">
+    <div class="alert alert-warning" style="margin-bottom: 0px;">
+        <font class="text-warning">
+            <i class="fa fa-warning"></i> Are you sure?
+        </font>
+    </div>
 @endsection
 
 @section('js')

@@ -123,7 +123,7 @@
         <p>All Rights Reserved 2017 | Version 1.0</p>
     </div>
 </footer>
-
+@include('modal.confirmation')
 
         <!-- Bootstrap core JavaScript
     ================================================== -->

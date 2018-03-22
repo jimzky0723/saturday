@@ -27,6 +27,7 @@ Route::get('admin','admin\HomeCtrl@index');
 Route::get('admin/players','admin\PlayerCtrl@index');
 Route::get('admin/player/create','admin\PlayerCtrl@create');
 Route::post('admin/player/store','admin\PlayerCtrl@store');
+Route::get('admin/player/destroy/{player_id}','admin\PlayerCtrl@destroy');
 
 Route::get('admin/player/{id}','admin\PlayerCtrl@edit');
 Route::post('admin/player/update','admin\PlayerCtrl@update');
@@ -45,4 +46,6 @@ Route::get('admin/games/refresh/{game_id}','admin\GameCtrl@calculate');
 
 Route::post('admin/games/store','admin\GameCtrl@store');
 Route::post('admin/games/assign','admin\GameCtrl@assignPlayer');
+Route::get('admin/games/destroy/{game_id}','admin\GameCtrl@destroy');
+
 

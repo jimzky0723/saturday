@@ -27,6 +27,14 @@
                             </font>
                         </div>
                     @endif
+
+                    @if($status=='deleted')
+                        <div class="alert alert-success">
+                            <font class="text-success">
+                                <i class="fa fa-check"></i> Game successfully deleted!
+                            </font>
+                        </div>
+                    @endif
                     @if(count($data))
                         @foreach($data as $row)
                             <?php

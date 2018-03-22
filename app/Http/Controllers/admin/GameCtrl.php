@@ -180,4 +180,14 @@ class GameCtrl extends Controller
         Boxscore::updateOrCreate($match,$data);
         return redirect()->back();
     }
+
+    public function destroy($game_id)
+    {
+        Boxscore::where('game_id',$game_id)
+            ->delete();
+
+        Games::find($game_id)
+            ->delete();
+        return redirect('admin/games')->with('status','deleted');
+    }
 }

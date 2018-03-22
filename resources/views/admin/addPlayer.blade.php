@@ -3,6 +3,7 @@
 @section('content')
     <?php
         $status = session('status');
+        $player_id = 0;
         $str = date('mdHis');
         $unique_id = '';
         $fname = '';
@@ -20,6 +21,7 @@
 
         if(isset($data))
         {
+            $player_id = $data->id;
             $unique_id = $data->unique_id;
             $fname = $data->fname;
             $mname = $data->mname;
@@ -156,7 +158,7 @@
                                         <i class="fa fa-send"></i> Save
                                     </button>
                                     @else
-                                    <button type="submit" class="btn btn-danger btn-sm">
+                                    <button data-target="#deleteModal" data-toggle="modal" type="submit" class="btn btn-danger btn-sm">
                                         <i class="fa fa-trash"></i> Delete
                                     </button>
                                     <button type="submit" class="btn btn-success btn-sm">
@@ -174,6 +176,16 @@
     <div class="col-md-3">
         @include('sidebar.addPlayer')
     </div>
+@endsection
+
+@section('modal')
+    <label>DELETE PLAYER?</label>
+    <form method="GET" action="{{ url('admin/player/destroy/'.$player_id) }}">
+        <div class="alert alert-warning" style="margin-bottom: 0px;">
+            <font class="text-warning">
+                <i class="fa fa-warning"></i> Are you sure you want to delete this player? All records corresponding to this player will be deleted.
+            </font>
+        </div>
 @endsection
 
 @section('js')
