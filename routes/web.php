@@ -14,6 +14,8 @@
 Route::get('/','HomeCtrl@index');
 Route::get('/players','HomeCtrl@players');
 Route::get('/player/{player_id}','HomeCtrl@profile');
+Route::get('/score','HomeCtrl@score');
+Route::get('/score/boxscore/{game_id}','HomeCtrl@boxscore');
 
 Route::get('/logout', function (){
     Session::flush();
@@ -36,6 +38,7 @@ Route::post('admin/player/update','admin\PlayerCtrl@update');
 
 
 Route::get('admin/games','admin\GameCtrl@index');
+Route::get('admin/games/endgame/{game_id}','admin\GameCtrl@calculate');
 
 Route::get('admin/games/assign/{game_id}','admin\GameCtrl@assign');
 Route::get('admin/games/player/remove/{game_id}/{player_id}','admin\GameCtrl@removePlayer');

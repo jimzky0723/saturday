@@ -91,11 +91,8 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ url('admin/games/boxscore/'.$game->id) }}" class="btn btn-xs btn-success">
+                                            <a href="{{ url('admin/games/boxscore/'.$game->id) }}" class="btn btn-xs btn-success btn-block">
                                                 <i class="fa fa-table"></i> Box Score
-                                            </a>
-                                            <a href="{{ url('admin/games/refresh/'.$game->id) }}" class="btn btn-warning btn-xs">
-                                                <i class="fa fa-refresh"></i>
                                             </a>
                                         </td>
                                     </tr>

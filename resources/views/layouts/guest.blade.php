@@ -89,10 +89,11 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/') }}">Home</a></li>
+                <li><a href="{{ url('score') }}">Scores</a></li>
                 <li><a href="{{ url('players') }}">Players</a></li>
-                <li><a href="{{ url('games') }}">Schedule</a></li>
                 <li><a href="{{ url('stats') }}">Stats</a></li>
                 <li><a href="{{ url('ranking') }}">Ranking</a></li>
+                <li><a href="{{ url('admin') }}">Panel</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

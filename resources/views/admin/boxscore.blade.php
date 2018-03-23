@@ -211,7 +211,7 @@
                                             0.0%
                                         @endif
                                     </td>
-                                    <td colspan="8"></td>
+                                    <td colspan="9"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -389,11 +389,12 @@
                                             0.0%
                                         @endif
                                     </td>
-                                    <td colspan="8"></td>
+                                    <td colspan="9"></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
+                        @if($data->status==0)
                         <hr />
                         <div class="pull-right">
                             <a target="_blank" href="{{ url('admin/games/start/'.$data->id.'/'.$data->home_team) }}" class="btn btn-success btn-sm">
@@ -402,12 +403,33 @@
                             <a target="_blank" href="{{ url('admin/games/start/'.$data->id.'/'.$data->away_team) }}" class="btn btn-info btn-sm">
                                 <i class="fa fa-bookmark"></i> Select {{ $data->away_team }}
                             </a>
+                            <a href="#deleteModal" data-toggle="modal" class="btn btn-default btn-sm">
+                                <i class="fa fa-archive"></i> End Game
+                            </a>
                         </div>
+                        @else
+                        <hr />
+                        <div class="pull-right">
+                            <a href="{{ url('admin/games/refresh/'.$data->id) }}" class="btn btn-warning btn-sm">
+                                <i class="fa fa-refresh"></i> Re-Calculate
+                            </a>
+                        </div>
+                        @endif
                 </div>
             </div>
         </div>
     </div>
     @include('modal.manualInput')
+@endsection
+
+@section('modal')
+    <label>END GAME?</label>
+    <form method="GET" action="{{ url('admin/games/endgame/'.$data->id) }}">
+        <div class="alert alert-warning" style="margin-bottom: 0px;">
+            <font class="text-warning">
+                <i class="fa fa-warning"></i> Are you sure you want to end the game?
+            </font>
+        </div>
 @endsection
 
 @section('js')

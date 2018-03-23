@@ -13,7 +13,7 @@
         <div class="col-md-9">
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h4>Stats</h4>
+                    <h4>Career Stats</h4>
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
@@ -35,40 +35,43 @@
                                 <th>TOPG</th>
                                 <th>PPG</th>
                             </tr>
+                            @if($career['gp']>0)
                             <tr>
-                                <th>2018 Season</th>
-                                <th>3</th>
-                                <th>8-20</th>
-                                <th>40%</th>
-                                <th>2-7</th>
-                                <th>0.28</th>
-                                <th>5-10</th>
-                                <th>50%</th>
-                                <th>3.5</th>
-                                <th>2.5</th>
-                                <th>0.2</th>
-                                <th>0.5</th>
-                                <th>1.3</th>
-                                <th>2.3</th>
-                                <th>7.3</th>
-                            </tr>
-                            <tr>
+                                <?php
+                                    $fgm = $career['fg2m'] + $career['fg3m'];
+                                    $fga = $career['fg2a'] + $career['fg3a'];
+                                    $fg = number_format(($fgm/$fga)*100,1);
+                                ?>
                                 <th>Career</th>
-                                <th>3</th>
-                                <th>8-20</th>
-                                <th>40%</th>
-                                <th>2-7</th>
-                                <th>0.28</th>
-                                <th>5-10</th>
-                                <th>50%</th>
-                                <th>3.5</th>
-                                <th>2.5</th>
-                                <th>0.2</th>
-                                <th>0.5</th>
-                                <th>1.3</th>
-                                <th>2.3</th>
-                                <th>7.3</th>
+                                <th>{{ $career['gp'] }}</th>
+                                <th>{{ $fgm }}-{{ $fga }}</th>
+                                <th>{{ $fg }}%</th>
+                                <th>{{ $career['fg3m'] }}-{{ $career['fg3a'] }}</th>
+                                <th>
+                                    @if($career['fg3a']>0)
+                                        {{ number_format(($career['fg3m']/$career['fg3a'])*100,1) }}%
+                                    @else
+                                        0.0%
+                                    @endif
+
+                                </th>
+                                <th>{{ $career['ftm'] }}-{{ $career['fta'] }}</th>
+                                <th>
+                                    @if($career['fta']>0)
+                                        {{ number_format(($career['ftm']/$career['fta'])*100,1) }}%
+                                    @else
+                                        0.0%
+                                    @endif
+                                </th>
+                                <th>{{ $career['apg'] }}</th>
+                                <th>{{ $career['rpg'] }}</th>
+                                <th>{{ $career['bpg'] }}</th>
+                                <th>{{ $career['spg'] }}</th>
+                                <th>{{ $career['pfpg'] }}</th>
+                                <th>{{ $career['tpg'] }}</th>
+                                <th>{{ $career['ppg'] }}</th>
                             </tr>
+                            @endif
                         </table>
                     </div>
                 </div>
@@ -89,8 +92,7 @@
                                 <th>FG%</th>
                                 <th>3PM-3PA</th>
                                 <th>3P%</th>
-                                <th>FTM</th>
-                                <th>FTA</th>
+                                <th>FTM-FTA</th>
                                 <th>FT%</th>
                                 <th>REB</th>
                                 <th>AST</th>
@@ -100,27 +102,122 @@
                                 <th>TO</th>
                                 <th>PTS</th>
                             </tr>
-                            <tr>
-                                <th>03/19</th>
-                                <th>Team B</th>
-                                <th>
-                                    <span class="text-danger">L</span> 20-8
-                                </th>
-                                <th>0-3</th>
-                                <th>0%</th>
-                                <th>1-4</th>
-                                <th>25%</th>
-                                <th>0</th>
-                                <th>0</th>
-                                <th>0%</th>
-                                <th>3</th>
-                                <th>1</th>
-                                <th>0</th>
-                                <th>0</th>
-                                <th>2</th>
-                                <th>7</th>
-                                <th>3</th>
-                            </tr>
+                            <?php
+                                $total_fgm = 0;
+                                $total_fga = 0;
+                                $total_3fm = 0;
+                                $total_3fa = 0;
+                                $total_ftm = 0;
+                                $total_fta = 0;
+                                $total_reb = 0;
+                                $total_ast = 0;
+                                $total_stl = 0;
+                                $total_blk = 0;
+                                $total_to = 0;
+                                $total_pf = 0;
+                                $total_pts =0;
+                                $counter = 0;
+                                $total_fP = 0;
+                                $total_3P = 0;
+                                $total_ftP = 0;
+                            ?>
+                            @if(count($game_log))
+                                @foreach($game_log as $log)
+                                <?php $counter += 1; ?>
+                                <tr>
+                                    <th>{{ date('m/d',strtotime($log->date_match)) }}</th>
+                                    <th>
+                                        @if($log->myteam == $log->home_team)
+                                            {{ $log->away_team }}
+                                        @else
+                                            {{ $log->home_team }}
+                                        @endif
+                                    </th>
+                                    <th>
+
+                                            @if($log->winner && $log->winner==$log->myteam)
+                                                <span class="text-success">W</span>
+                                            @elseif($log->winner && $log->winner!=$log->myteam)
+                                                <span class="text-danger">L</span>
+                                            @endif
+                                            <?php
+                                                $home_score = \App\Boxscore::where('game_id',$log->id)->where('team',$log->home_team)->sum('pts');
+                                                $away_score = \App\Boxscore::where('game_id',$log->id)->where('team',$log->away_team)->sum('pts');
+
+                                                $stats = \App\Boxscore::where('game_id',$log->id)
+                                                    ->where('team',$log->myteam)
+                                                    ->where('player_id',$player_id)
+                                                    ->first();
+                                                $fgm = $stats->fg2m + $stats->fg3m;
+                                                $fga = $stats->fg2a + $stats->fg3a;
+                                            ?>
+                                            {{ $home_score }}-{{ $away_score }}
+                                    </th>
+                                    <th>
+                                        <?php $total_fgm = $total_fgm + $fgm; ?>
+                                        <?php $total_fga = $total_fga + $fga; ?>
+                                        {{ $fgm }}-{{ $fga }}
+                                    </th>
+                                    <th>
+                                        @if($fga==0)
+                                            0.0%
+                                        @else
+                                            <?php $total_fP  = $total_fP + number_format(($fgm/$fga)*100,1); ?>
+                                            {{ number_format(($fgm/$fga)*100,1) }}%
+                                        @endif
+                                    </th>
+                                    <th>
+                                        <?php $total_3fm  = $total_3fm + $stats->fg3m; ?>
+                                        <?php $total_3fa = $total_3fa + $stats->fg3a; ?>
+                                        {{ $stats->fg3m }}-{{ $stats->fg3a }}
+                                    </th>
+                                    <th>
+                                        @if($stats->fg3a==0)
+                                            0.0%
+                                        @else
+                                            <?php $total_3P  = $total_3P + number_format(($stats->fg3m/$stats->fg3a)*100,1); ?>
+                                            {{ number_format(($stats->fg3m/$stats->fg3a)*100,1) }}%
+                                        @endif
+                                    </th>
+                                    <th>
+                                        <?php $total_ftm = $total_ftm + $stats->ftm; ?>
+                                        <?php $total_fta = $total_fta + $stats->fta; ?>
+                                        {{ $stats->ftm }}-{{ $stats->fta }}
+                                    </th>
+                                    <th>
+                                        @if($stats->fta==0)
+                                            0.0%
+                                        @else
+                                            <?php $total_ftP  = $total_ftP + number_format(($stats->ftm/$stats->fta)*100,1); ?>
+                                            {{ number_format(($stats->ftm/$stats->fta)*100,1) }}%
+                                        @endif
+                                    </th>
+                                    <th>{{ $stats->oreb + $stats->dreb }} <?php $total_reb = $total_reb + $stats->oreb + $stats->dreb; ?></th>
+                                    <th>{{ $stats->ast }}<?php $total_ast = $total_ast + $stats->ast; ?></th>
+                                    <th>{{ $stats->blk }}<?php $total_blk = $total_blk + $stats->blk; ?></th>
+                                    <th>{{ $stats->stl }}<?php $total_stl = $total_stl + $stats->stl; ?></th>
+                                    <th>{{ $stats->pf }}<?php $total_pf = $total_pf + $stats->pf; ?></th>
+                                    <th>{{ $stats->turnover }}<?php $total_to = $total_to + $stats->turnover; ?></th>
+                                    <th class="text-success">{{ $stats->pts }}<?php $total_pts = $total_pts + $stats->pts; ?></th>
+                                </tr>
+                                @endforeach
+                                <tr class="bg-aqua">
+                                    <th colspan="3">Last 10 Games</th>
+                                    <th>{{ number_format($total_fgm/$counter,1) }}-{{ number_format($total_fga/$counter,1) }}</th>
+                                    <th>{{ number_format($total_fP/$counter,1) }}%</th>
+                                    <th>{{ number_format($total_3fm/$counter,1) }}-{{ number_format($total_3fa/$counter,1) }}</th>
+                                    <th>{{ number_format($total_3P/$counter,1) }}%</th>
+                                    <th>{{ number_format($total_ftm/$counter,1) }}-{{ number_format($total_fta/$counter,1) }}</th>
+                                    <th>{{ number_format($total_ftP/$counter,1) }}%</th>
+                                    <th>{{ number_format($total_reb/$counter,1) }}</th>
+                                    <th>{{ number_format($total_ast/$counter,1) }}</th>
+                                    <th>{{ number_format($total_blk/$counter,1) }}</th>
+                                    <th>{{ number_format($total_stl/$counter,1) }}</th>
+                                    <th>{{ number_format($total_pf/$counter,1) }}</th>
+                                    <th>{{ number_format($total_to/$counter,1) }}</th>
+                                    <th>{{ number_format($total_pts/$counter,1) }}</th>
+                                </tr>
+                            @endif
                         </table>
                     </div>
                 </div>

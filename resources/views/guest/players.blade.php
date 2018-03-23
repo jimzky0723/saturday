@@ -22,7 +22,7 @@
                                 <tr>
                                     <td class="title-info">{{ $row->jersey }}</td>
                                     <td class="title-info">
-                                        <a href="{{ url('player/'.$row->id) }}" rel="popover" data-img="{{ asset('public/upload/profile/'.$row->prof_pic.'?img='.date('YmdHis')) }}">
+                                        <a target="_blank" href="{{ url('player/'.$row->id) }}" rel="popover" data-img="{{ asset('public/upload/profile/'.$row->prof_pic.'?img='.date('YmdHis')) }}">
                                             {{ $row->lname }}, {{ $row->fname }} {{ $row->mname }}
                                         </a>
                                     </td>

@@ -9,7 +9,7 @@
                 <span class="title-info">{{ $data->fname }} {{ $data->lname }}
                 <br />
                 <small class="text-muted">
-                    #{{ $data->jersey }} | {{ $data->height }}, {{ $data->weight }}<br />
+                    #{{ $data->jersey }} <span class="text-bold">{{ $data->position }}</span> | {{ $data->height }}, {{ $data->weight }}<br />
                     {{ $data->section }}
                 </small>
                 </span>
@@ -48,16 +48,20 @@
     <div class="panel-body">
         <table class="table table-stat" style="margin-bottom: 0px;">
             <tr>
+                <td>GP</td>
+                <td>{{ $career['gp'] }}</td>
+            </tr>
+            <tr>
                 <td>PPG</td>
-                <td>13.2</td>
+                <td>{{ $career['ppg'] }}</td>
             </tr>
             <tr>
                 <td>APG</td>
-                <td>5.3</td>
+                <td>{{ $career['apg'] }}</td>
             </tr>
             <tr>
                 <td>RPG</td>
-                <td>3.2</td>
+                <td>{{ $career['rpg'] }}</td>
             </tr>
         </table>
     </div>

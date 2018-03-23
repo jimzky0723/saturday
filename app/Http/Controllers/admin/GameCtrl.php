@@ -123,16 +123,21 @@ class GameCtrl extends Controller
             $losser_score = $losser->pts;
         }
 
+
         $data = array(
             'home_score' => $home_score,
             'away_score' => $away_score,
+            'winner' => ($home_score > $away_score) ? $home:$away,
             'winner_id' => $winner_id,
             'winner_score' => $winner_score,
             'losser_id' => $losser_id,
-            'losser_score' => $losser_score
+            'losser_score' => $losser_score,
+            'status' => 1
         );
         Games::where('id',$game_id)
             ->update($data);
+
+
         return redirect()->back();
     }
 
@@ -196,6 +201,7 @@ class GameCtrl extends Controller
 
     public function saveManualStats(Request $req)
     {
+
         $match = array(
             'game_id' => $req->game_id,
             'player_id' => $req->player_id
@@ -212,7 +218,7 @@ class GameCtrl extends Controller
             'ftm' => $req->ftm,
             'fta' => $req->fta,
             'oreb' => $req->oreb,
-            'dreb' => $req->oreb,
+            'dreb' => $req->dreb,
             'ast' => $req->ast,
             'stl' => $req->stl,
             'blk' => $req->blk,
