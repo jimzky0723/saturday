@@ -103,21 +103,31 @@ class PlayerCtrl extends Controller
     function update(Request $req)
     {
         $unique = $req->unique_id;
+
+        $tmp = array(
+            $req->fname,
+            $req->mname,
+            $req->lname,
+            date('Ymd',strtotime($req->dob))
+        );
+        $new_unique = implode("",$tmp);
+
         $match = array('unique_id' => $unique);
         if($_FILES['prof_pic']['name'])
         {
-            $prof_pic = self::uploadPicture($_FILES['prof_pic'],$unique,'profile');
+            $prof_pic = self::uploadPicture($_FILES['prof_pic'],$new_unique,'profile');
             Players::updateOrCreate($match,['prof_pic'=>$prof_pic]);
         }
         if($_FILES['portrait_pic']['name'])
         {
-            $portrait_pic = self::uploadPicture($_FILES['portrait_pic'],$unique,'portrait');
+            $portrait_pic = self::uploadPicture($_FILES['portrait_pic'],$new_unique,'portrait');
             Players::updateOrCreate($match,['portrait_pic'=>$portrait_pic]);
         }
 
 
         Players::updateOrCreate($match,
             [
+                'unique_id' => $new_unique,
                 'fname'=>$req->fname,
                 'mname'=>$req->mname,
                 'lname'=>$req->lname,

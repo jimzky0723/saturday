@@ -16,12 +16,9 @@ Route::get('/players','HomeCtrl@players');
 Route::get('/player/{player_id}','HomeCtrl@profile');
 Route::get('/score','HomeCtrl@score');
 Route::get('/score/boxscore/{game_id}','HomeCtrl@boxscore');
-Route::get('stats',function(){
-    return view('guest.error');
-});
-Route::get('ranking',function(){
-    return view('guest.error');
-});
+Route::get('stats','HomeCtrl@stats');
+Route::post('stats','HomeCtrl@stats');
+Route::get('ranking','HomeCtrl@ranking');
 
 
 Route::get('/logout', function (){

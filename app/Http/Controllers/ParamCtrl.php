@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Boxscore;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ParamCtrl extends Controller
 {
@@ -16,5 +18,20 @@ class ParamCtrl extends Controller
             ? ((date("Y") - $birthDate[2]) - 1)
             : (date("Y") - $birthDate[2]));
         return $age;
+    }
+
+    static function getTopPlayer()
+    {
+        $stats = Boxscore::select(
+                'player_id',
+                DB::raw('SUM(pts)/count(team) as pts'),
+                DB::raw('SUM(ast)/count(team) as ast'),
+                DB::raw('((SUM(oreb)+SUM(dreb)))/count(team) as reb'),
+                DB::raw('(SUM(pts) + (SUM(oreb)+SUM(dreb)) + SUM(ast) + SUM(stl) + SUM(blk))-(((SUM(fg2a)+SUM(fg3a)) - (SUM(fg3m)+SUM(fg2m))) + (SUM(fta) - SUM(ftm)) + (SUM(turnover))) as eff')
+            )
+            ->orderBy('eff','desc')
+            ->groupBy('player_id')
+            ->first();
+        return $stats;
     }
 }

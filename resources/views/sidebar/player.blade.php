@@ -1,14 +1,19 @@
+<?php
+    $top = \App\Http\Controllers\ParamCtrl::getTopPlayer();
+    $player_id = $top->player_id;
+    $player = \App\Players::find($player_id);
+?>
 <div class="panel panel-jim">
     <div class="panel-heading">
-        <h3 class="panel-title">Top Performer of the Month</h3>
+        <h3 class="panel-title">Rank 1 Overall Statistics</h3>
     </div>
     <div class="panel-body">
         <div class="thumbnail img-responsive">
-            <img src="{{ url('public/upload/portrait/Wairley VonCCabiluna19901210.png') }}" />
+            <img src="{{ url('public/upload/portrait/'.$player->portrait_pic) }}" />
             <div class="text-center">
-                <span class="title-info">Wairley Von Cabiluna</span>
+                <span class="title-info">{{ $player->fname }} {{ $player->lname }}</span>
                 <br />
-                <small class="text-muted">Average of 21.2 PPG, 5 APG, 4 RPG</small>
+                <small class="text-muted">Average of {{ number_format($top->pts,1) }} PPG, {{ number_format($top->ast,1) }} APG, {{ number_format($top->reb,1) }} RPG</small>
             </div>
 
         </div>

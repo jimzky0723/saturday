@@ -6,6 +6,7 @@ use App\Boxscore;
 use App\Games;
 use App\Players;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class HomeCtrl extends Controller
@@ -136,6 +137,94 @@ class HomeCtrl extends Controller
         return view('guest.boxscore',[
             'title' => 'Box Score',
             'data' => $data
+        ]);
+    }
+
+    public function ranking()
+    {
+
+        $stats = Boxscore::select(
+            'player_id',
+            DB::raw('count(team) as gp'),
+            DB::raw('SUM(pts) as pts'),
+            DB::raw('SUM(ast) as ast'),
+            DB::raw('SUM(stl) as stl'),
+            DB::raw('SUM(blk) as blk'),
+            DB::raw('SUM(turnover) as turnover'),
+            DB::raw('(SUM(oreb)+SUM(dreb)) as reb'),
+            DB::raw('(SUM(pts) + (SUM(oreb)+SUM(dreb)) + SUM(ast) + SUM(stl) + SUM(blk))-(((SUM(fg2a)+SUM(fg3a)) - (SUM(fg3m)+SUM(fg2m))) + (SUM(fta) - SUM(ftm)) + (SUM(turnover))) as eff')
+        )
+            ->orderBy('eff','desc')
+            ->groupBy('player_id')
+            ->limit(30)
+            ->get();
+        return view('guest.ranking',[
+            'title' => 'TOP 30 Players: Overall Stats',
+            'data' => $stats
+        ]);
+    }
+
+    public function stats(Request $req)
+    {
+        $sort = 'scoring';
+        if($req->sort){
+            $sort = $req->sort;
+        }
+        $data = Boxscore::select(
+            'player_id',
+            DB::raw('count(team) as gp'),
+            DB::raw('SUM(pts)/count(team) as pts'),
+            DB::raw('SUM(ast)/count(team) as ast'),
+            DB::raw('SUM(stl)/count(team) as stl'),
+            DB::raw('SUM(blk)/count(team) as blk'),
+            DB::raw('SUM(fg2m)/count(team) as fg2m'),
+            DB::raw('SUM(fg2a)/count(team) as fg2a'),
+            DB::raw('SUM(fg3m)/count(team) as fg3m'),
+            DB::raw('SUM(fg3a)/count(team) as fg3a'),
+            DB::raw('(SUM(fg2m) + SUM(fg3m))/(SUM(fg2a) + SUM(fg3a)) as fg_per'),
+            DB::raw('(SUM(fg3m))/(SUM(fg3a)) as fg3_per'),
+            DB::raw('(SUM(ftm))/(SUM(fta)) as ft_per'),
+            DB::raw('SUM(turnover)/count(team) as turnover'),
+            DB::raw('((SUM(oreb)+SUM(dreb)))/count(team) as reb')
+        );
+
+        $title = 'Points Per Game Statistics';
+        $col = 'pts';
+        if($sort=='assist'){
+            $title = 'Assist Per Game Statistics';
+            $col = 'ast';
+        }else if($sort=='rebound'){
+            $title = 'Rebound Per Game Statistics';
+            $col = 'reb';
+        }else if($sort=='steal'){
+            $title = 'Steal Per Game Statistics';
+            $col = 'stl';
+        }else if($sort=='turnover'){
+            $title = 'Turnover Per Game Statistics';
+            $col = 'turnover';
+        }else if($sort=='fieldgoal'){
+            $title = 'Field Goal %';
+            $col = 'fg_per';
+        }else if($sort=='block'){
+            $title = 'Block Per Game Statistics';
+            $col = 'blk';
+        }else if($sort=='3-fieldgoal'){
+            $title = '3-Point Field Goals';
+            $col = 'fg3_per';
+        }else if($sort=='freethrow'){
+            $title = 'Free-Throw Shooting Statistics';
+            $col = 'ft_per';
+        }
+
+        $data = $data->orderBy($col,'desc')
+            ->groupBy('player_id')
+            ->limit(30)
+            ->get();
+
+        return view('guest.stats',[
+            'title' => $title,
+            'data' => $data,
+            'sort' => $col
         ]);
     }
 }
