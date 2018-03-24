@@ -16,6 +16,11 @@
             font-weight: bold;
             font-size: 1.4em;
         }
+        .title-warning {
+            color: #ca780f;
+            font-weight: bold;
+            font-size: 1.4em;
+        }
         .columns {
             padding:0px !important;
         }
@@ -23,23 +28,40 @@
 </head>
 <body>
 <?php
-$players = \App\Boxscore::where('game_id',$data->id)
-    ->where('team',$team)
+$home = \App\Boxscore::where('game_id',$data->id)
+    ->where('team',$data->home_team)
+    ->get();
+
+$away = \App\Boxscore::where('game_id',$data->id)
+    ->where('team',$data->away_team)
     ->get();
 ?>
 <div id="social-platforms">
-    <h1 class="team">{{ $team }} | <font class="title-info score">0</font> </h1>
-    @foreach($players as $row)
+    <h1 class="team">{{ $data->home_team }} <font class="title-info home_score">0</font> | <font class="title-warning away_score">0</font> {{ $data->away_team }}</h1>
+    @foreach($home as $row)
     <?php
         $player = \App\Players::find($row->player_id);
     ?>
-    <a class="btn btn-icon btn-twitter" href="#basketModal" data-player="{{ $player->id }}" data-toggle="modal">
+    <a class="btn btn-icon btn-twitter" href="#basketModal" data-player="{{ $player->id }}" data-team="{{ $data->home_team }}" data-toggle="modal">
         <i>
             {{ $player->fname[0] }}. {{ $player->lname }}<br /><small>{{ $player->position }} | {{ $player->jersey}}</small>
         </i>
         <span><img src="{{ url('public/upload/profile/'.$player->prof_pic.'?img='.date('YmdHis')) }}" width="80px" class="img-responsive" /></span>
     </a>
     @endforeach
+    <hr />
+    @foreach($away as $row)
+        <?php
+        $player = \App\Players::find($row->player_id);
+        ?>
+        <a class="btn btn-icon btn-twitter" href="#basketModal" data-player="{{ $player->id }}" data-team="{{ $data->away_team }}" data-toggle="modal">
+            <i>
+                {{ $player->fname[0] }}. {{ $player->lname }}<br /><small>{{ $player->position }} | {{ $player->jersey}}</small>
+            </i>
+            <span><img src="{{ url('public/upload/profile/'.$player->prof_pic.'?img='.date('YmdHis')) }}" width="80px" class="img-responsive" /></span>
+        </a>
+    @endforeach
+
 </div>
 </body>
 
@@ -128,12 +150,17 @@ $players = \App\Boxscore::where('game_id',$data->id)
 <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
 
 <script>
-    var team = "{{ $team }}";
+    var team = "";
     var game_id = "{{ $data->id }}";
     var player_id = 0;
     var action = '';
 
-    getScore();
+    initialize();
+    function initialize(){
+        team = "{{ $data->home_team }}";
+        getScore();
+
+    }
 
     function getScore()
     {
@@ -142,13 +169,22 @@ $players = \App\Boxscore::where('game_id',$data->id)
             url: url+'/'+game_id+'/'+team,
             type: 'GET',
             success: function(data){
-                $('.score').html(data).fadeOut().fadeIn();
+                var tmp = "{{ $data->home_team }}";
+                if(tmp==team){
+                    $('.home_score').html(data).fadeOut().fadeIn();
+                    team = "{{ $data->away_team }}";
+                    getScore();
+                }else{
+                    $('.away_score').html(data).fadeOut().fadeIn();
+                    team = "";
+                }
             }
         });
     }
 
     $('a[href="#basketModal"]').on('click',function(){
         player_id = $(this).data('player');
+        team = $(this).data('team');
     });
 
     $('.action').on('click',function(){
@@ -163,7 +199,14 @@ $players = \App\Boxscore::where('game_id',$data->id)
             url: url+'/'+game_id+'/'+player_id+'/'+action+'/'+team,
             type: 'GET',
             success: function(data){
-                $('.score').html(data).fadeOut().fadeIn();
+                var tmp = "{{ $data->home_team }}";
+                console.log(team);
+                if(tmp===team){
+                    $('.home_score').html(data).fadeOut().fadeIn();
+                }else{
+                    $('.away_score').html(data).fadeOut().fadeIn();
+                }
+
             }
         });
     }

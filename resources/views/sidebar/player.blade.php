@@ -1,8 +1,12 @@
 <?php
     $top = \App\Http\Controllers\ParamCtrl::getTopPlayer();
-    $player_id = $top->player_id;
-    $player = \App\Players::find($player_id);
+    if($top){
+        $player_id = $top->player_id;
+        $player = \App\Players::find($player_id);
+    }
+
 ?>
+@if($top)
 <div class="panel panel-jim">
     <div class="panel-heading">
         <h3 class="panel-title">Rank 1 Overall Statistics</h3>
@@ -20,6 +24,7 @@
 
     </div>
 </div>
+@endif
 
 <div class="panel panel-jim">
     <div class="panel-heading">

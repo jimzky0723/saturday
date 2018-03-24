@@ -397,8 +397,8 @@
                         @if($data->status==0)
                         <hr />
                         <div class="pull-right">
-                            <a target="_blank" href="{{ url('admin/games/start/'.$data->id.'/'.$data->home_team) }}" class="btn btn-success btn-sm">
-                                <i class="fa fa-bookmark"></i> Select {{ $data->home_team }}
+                            <a target="_blank" href="{{ url('admin/games/start/'.$data->id) }}" class="btn btn-success btn-sm">
+                                <i class="fa fa-arrows-alt"></i> Start Game
                             </a>
                             <a target="_blank" href="{{ url('admin/games/start/'.$data->id.'/'.$data->away_team) }}" class="btn btn-info btn-sm">
                                 <i class="fa fa-bookmark"></i> Select {{ $data->away_team }}
