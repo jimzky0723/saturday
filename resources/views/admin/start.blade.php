@@ -37,7 +37,7 @@ $away = \App\Boxscore::where('game_id',$data->id)
     ->get();
 ?>
 <div id="social-platforms">
-    <h1 class="team">{{ $data->home_team }} <font class="title-info home_score">0</font> | <font class="title-warning away_score">0</font> {{ $data->away_team }}</h1>
+    <h1 class="team">{{ $data->home_team }} <font class="title-info home_score">0</font> vs. <font class="title-warning away_score">0</font> {{ $data->away_team }}</h1>
     @foreach($home as $row)
     <?php
         $player = \App\Players::find($row->player_id);
@@ -146,6 +146,22 @@ $away = \App\Boxscore::where('game_id',$data->id)
         </form>
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" role="dialog" id="serverModal">
+    <div class="modal-dialog modal-sm" role="document">
+        {{ csrf_field() }}
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <span class="text-warning">
+                        <i class="fa fa-warning"></i> Opps! Connection problem! Please pause the game.
+                    </span>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
 
@@ -178,6 +194,9 @@ $away = \App\Boxscore::where('game_id',$data->id)
                     $('.away_score').html(data).fadeOut().fadeIn();
                     team = "";
                 }
+            },
+            error: function(){
+                $('#serverModal').modal('show');
             }
         });
     }
@@ -207,6 +226,9 @@ $away = \App\Boxscore::where('game_id',$data->id)
                     $('.away_score').html(data).fadeOut().fadeIn();
                 }
 
+            },
+            error: function(){
+                $('#serverModal').modal('show');
             }
         });
     }
